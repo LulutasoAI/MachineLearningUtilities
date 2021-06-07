@@ -21,7 +21,9 @@ class Transfer_learning():
     def __init__(self):
         self.image_size = 256
         self.channel = 3
-        self.base_model = VGG16(weights = 'imagenet',include_top = False,input_shape = (self.image_size, self.image_size, self.channel))
+        self.base_model = VGG16(weights = 'imagenet',
+            include_top = False,
+            input_shape = (self.image_size, self.image_size, self.channel))
 
     def base_model_init_(self):
         base_model = self.base_model
@@ -47,7 +49,7 @@ class Transfer_learning():
         model.add(Dropout(0.5))
         model.add(Dense(10, activation='softmax'))
         model.summary()
-        return model 
+        return model
 
     def Train(self, x_train, y_train,model):
         cp = ModelCheckpoint("weights.hdf5", monitor="val_loss", verbose=1,

@@ -15,7 +15,6 @@ from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
 import datetime
 
-
 class PictureProcessing():
     def __init__(self):
         """You can modify the _init_ process that can be set through config.ini"""
@@ -43,6 +42,9 @@ class PictureProcessing():
 
 
     def folder_name_to_X_and_Y(self):
+        """
+        This is a highly specified function. Modifying this function for your project might be efficient and useful.
+        """
         folders = glob.glob(os.path.join(self.picture_data_folder_name,"*"))
         X = []
         Y = []

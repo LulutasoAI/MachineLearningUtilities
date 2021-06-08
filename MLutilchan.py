@@ -22,6 +22,7 @@ class PictureProcessing():
         self.folder_name_for_models = "models"
         self.folder_name_for_backups = "backup"
         self.image_size = 256 #it could be 200, 50 or anything as you like.
+
     def main(self):
         X,Y = self.folder_name_to_X_and_Y()
         self.XYpickler(X,Y)
@@ -29,6 +30,7 @@ class PictureProcessing():
     def path2vector(self,path):
         img = self.pic2data(path)
         return img
+
     def pic2data(self, picjpg, image_size = 256):
         image_size = self.image_size
         image=Image.open(picjpg)
@@ -43,7 +45,7 @@ class PictureProcessing():
 
     def folder_name_to_X_and_Y(self):
         """
-        This is a highly specified function. Modifying this function for your project might be efficient and useful.
+        This function is a highly specific to my project. Modifying this function for your project might be efficient and useful.
         """
         folders = glob.glob(os.path.join(self.picture_data_folder_name,"*"))
         X = []

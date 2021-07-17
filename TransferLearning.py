@@ -15,6 +15,7 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.callbacks import ModelCheckpoint
 from keras.models import Sequential
 from tensorflow.keras.applications.vgg16 import VGG16
+import tensorflow as tf
 
 
 class Transfer_learning():
@@ -24,6 +25,87 @@ class Transfer_learning():
         self.base_model = VGG16(weights = 'imagenet',
             include_top = False,
             input_shape = (self.image_size, self.image_size, self.channel))
+
+    def load_ResNet50v2(self):
+        """
+        load_ResNet50v2
+        for tranining
+        """
+        base_model = tf.keras.applications.resnet_v2.ResNet50V2(
+        include_top=False, weights='imagenet', input_tensor=None,
+        input_shape = (self.image_size, self.image_size, self.channel),
+        pooling=None, classes=1000,
+        classifier_activation='softmax'
+        )
+        base_model.summary()
+        # 全ての重みを固定（freeze）
+        untrainable_n = 30 #it could be 1 ~ 200 or so.
+        for layer in base_model.layers[:untrainable_n]:
+            layer.trainable = False
+
+        # 重みが固定されているかの確認
+        for layer in base_model.layers:
+            print(layer, layer.trainable)
+
+        model = keras.Sequential()
+        # VGG16モデル
+        model.add(base_model)
+        # 層を追加
+        model.add(Conv2D(64, kernel_size=3, padding="same", activation="relu"))
+        model.add(MaxPooling2D())
+        model.add(Dropout(0.25))
+
+        model.add(Flatten())
+        model.add(Dense(256, activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(128, activation="relu"))
+        model.add(Dense(64, activation="relu"))
+        model.add(Dropout(0.5))
+        model.add(Dense(2, activation='softmax'))
+        model.summary()
+        """
+        #In case of loading some pretrained model.
+        weights_path = "exetendedone.hdf5"
+        model.load_weights(weights_path)
+        """
+        return model
+
+    def load_Vgg16(self):
+        """
+        load VGG16
+        for tranining
+        """
+        base_model = VGG16(weights = 'imagenet', #学習済みの重みを使用する
+                           include_top = False, #出力層は使わない
+                           input_shape = (self.image_size, self.image_size, self.channel)) #入力する画像サイズの指定
+        base_model.summary()
+        # 全ての重みを固定（freeze）
+        for layer in base_model.layers[:19]:
+          layer.trainable = False
+        # 重みが固定されているかの確認
+        for layer in base_model.layers:
+            print(layer, layer.trainable)
+        model = keras.Sequential()
+        # VGG16モデル
+        model.add(base_model)
+        # 層を追加
+        model.add(Conv2D(64, kernel_size=3, padding="same", activation="relu"))
+        model.add(MaxPooling2D())
+        model.add(Dropout(0.25))
+        model.add(Flatten())
+        model.add(Dense(256, activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(128, activation="relu"))
+        model.add(Dense(64, activation="relu"))
+        model.add(Dropout(0.5))
+        model.add(Dense(2, activation='softmax'))
+        model.summary()
+        """
+        #In case of loading some pretrained model.
+        weights_path = "exetendedone.hdf5"
+        model.load_weights(weights_path)
+        """
+        return model
 
     def base_model_init_(self):
         base_model = self.base_model

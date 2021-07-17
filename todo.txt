@@ -1,1 +1,3 @@
-・General usages will be considered. 
+・General usages will be considered. # kinda done 2021 7/17
+
+New functions should be added but no idea what else is useful. 

@@ -24,8 +24,10 @@ class PictureProcessing():
         self.image_size = 256 #it could be 200, 50 or anything as you like.
 
     def main(self):
-        X,Y = self.folder_name_to_X_and_Y()
-        self.XYpickler(X,Y)
+        """Define by yourself"""
+        #X,Y = self.folder_name_to_X_and_Y()
+        #self.XYpickler(X,Y)
+        pass
 
     def path2vector(self,path):
         img = self.pic2data(path)
@@ -55,7 +57,7 @@ class PictureProcessing():
 
     def MakeDL(self):
         """
-        This function creates the one of the most basic DL models for you. 
+        This function creates the one of the most basic DL models for you.
         Feel free to modify for your own purposes.
         """
         model = Sequential()

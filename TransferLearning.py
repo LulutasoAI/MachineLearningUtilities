@@ -26,6 +26,15 @@ class Transfer_learning():
             include_top = False,
             input_shape = (self.image_size, self.image_size, self.channel))
 
+    def load_model(self,model_name):
+        """
+        It loads the model
+        """
+        if model_name == "VGG16":
+            return self.load_Vgg16()
+        elif model_name == "ResNet50v2":
+            return self.load_ResNet50v2()
+
     def load_ResNet50v2(self):
         """
         load_ResNet50v2
